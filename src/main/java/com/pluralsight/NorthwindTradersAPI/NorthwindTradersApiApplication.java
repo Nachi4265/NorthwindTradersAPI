@@ -10,7 +10,6 @@ public class NorthwindTradersApiApplication {
 
 		SpringApplication.run(NorthwindTradersApiApplication.class, args);
 
-		System.out.println("SPRINGBOOT!");
 
 	}
 
