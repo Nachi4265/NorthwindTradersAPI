@@ -7,7 +7,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class NorthwindTradersApiApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(NorthwindTradersApiApplication.class, args);
+
+		System.out.println("SPRINGBOOT!");
+
 	}
 
 }
