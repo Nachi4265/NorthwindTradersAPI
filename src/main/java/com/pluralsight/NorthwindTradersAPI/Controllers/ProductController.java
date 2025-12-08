@@ -19,12 +19,14 @@ public class ProductController {
 
     public ProductController(){
 
-        List<Product> products = new ArrayList<>();
+        this.products = new ArrayList<>();
 
         products.add(new Product(1,"apple", 5, 1.99));
         products.add(new Product(2,"bannana", 5, 2.99));
         products.add(new Product(3,"orange", 5, 3.99));
         products.add(new Product(4,"graps", 5, 4.99));
+
+
     }
 
     @RequestMapping(path="/products", method = RequestMethod.GET)
