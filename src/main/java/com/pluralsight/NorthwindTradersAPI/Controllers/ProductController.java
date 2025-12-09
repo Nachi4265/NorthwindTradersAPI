@@ -1,10 +1,12 @@
 package com.pluralsight.NorthwindTradersAPI.Controllers;
 
+import com.pluralsight.NorthwindTradersAPI.Dao.JdbcProductDao;
 import com.pluralsight.NorthwindTradersAPI.Models.Product;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,32 +17,40 @@ import java.util.List;
 @RestController
 public class ProductController {
 
-    private List<Product>products;
+    JdbcProductDao pDao;
 
-    public ProductController(){
+    public ProductController(JdbcProductDao pDao){
 
-        this.products = new ArrayList<>();
-
-        products.add(new Product(1,"apple", 5, 1.99));
-        products.add(new Product(2,"bannana", 5, 2.99));
-        products.add(new Product(3,"orange", 5, 3.99));
-        products.add(new Product(4,"graps", 5, 4.99));
-
+        this.pDao = pDao;
 
     }
 
     @RequestMapping(path="/products", method = RequestMethod.GET)
-    public List<Product>getProdducts(){
-        return products;
+    public List<Product> getProdducts(){
+        try{
+
+           return pDao.getALL();
+
+        }catch (SQLException e ){
+
+            System.out.println("Error " + e.getMessage());
+
+        }
+
+       return null;
     }
 
     @RequestMapping(path="/products/{ID}",method = RequestMethod.GET)
     public Product getProduct(int ID){
-        for(Product p : products){
-            if (p.getProductID() == ID){
-                return p;
-            }
+
+        try{
+
+           return pDao.getProductByID(ID);
+
+        }catch (SQLException e ){
+            System.out.println("Error " + e.getMessage() );
         }
+
         return null;
     }
 
