@@ -22,7 +22,9 @@ public class JdbcProductDao implements ProductDao {
         this.dataSource =dataSource;
     }
 
-    public List<Product>getALL() throws SQLException {
+
+
+    public List<Product> getALL() throws SQLException {
 
         List<Product> products = new ArrayList<>();
 
@@ -44,7 +46,6 @@ public class JdbcProductDao implements ProductDao {
         return products;
 
     }
-
 
     public Product getProductByID(int ID) throws SQLException {
 
