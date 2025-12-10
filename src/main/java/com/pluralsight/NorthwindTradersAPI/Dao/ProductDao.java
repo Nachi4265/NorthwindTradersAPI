@@ -10,5 +10,13 @@ public interface ProductDao {
 
     List<Product> getALL() throws SQLException;
 
+    Product insert(Product product) throws SQLException;
+
+    void update(int ID , Product product)throws SQLException;
+
+    void delete(int ID)throws SQLException;
+
+
+
 
 }

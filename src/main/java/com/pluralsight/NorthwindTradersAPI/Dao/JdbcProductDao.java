@@ -42,9 +42,7 @@ public class JdbcProductDao implements ProductDao {
                 products.add(new Product(productid, productname, categoryID, price));
             }
         }
-
         return products;
-
     }
 
     public Product getProductByID(int ID) throws SQLException {
@@ -69,5 +67,22 @@ public class JdbcProductDao implements ProductDao {
 
         return productByID;
     }
+
+    @Override
+    public Product insert(Product product) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public void update(int ID, Product product) throws SQLException {
+
+    }
+
+    @Override
+    public void delete(int ID) throws SQLException {
+
+    }
+
+
 
 }
