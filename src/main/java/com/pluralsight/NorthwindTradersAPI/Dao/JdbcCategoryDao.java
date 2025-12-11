@@ -2,7 +2,6 @@ package com.pluralsight.NorthwindTradersAPI.Dao;
 
 
 import com.pluralsight.NorthwindTradersAPI.Models.Category;
-import com.pluralsight.NorthwindTradersAPI.Models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -49,26 +48,96 @@ public class JdbcCategoryDao implements CategoryDao {
 
     }
 
+
+    @Override
     public Category getCategoryByID(int ID) throws SQLException {
 
         Category categoryByID = null;
 
-        String idQuery = "SELECT CategoryID, CategoryName  FROM categories Where CategoryID = 3 ";
+        String idQuery = "SELECT CategoryID, CategoryName  FROM categories Where CategoryID = ? ";
 
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(idQuery);
-            ResultSet results = statement.executeQuery()
+
         ){
 
-            while(results.next()){
-                int categoryID = results.getInt(1);
-                String categoryName = results.getString(2);
+            statement.setInt(1,ID);
 
-                  categoryByID = new Category(categoryID,categoryName);
+            try(ResultSet results = statement.executeQuery()){
+
+                if(results.next()){
+
+                    int categoryID = results.getInt(1);
+                    String categoryName = results.getString(2);
+
+                    categoryByID = new Category(categoryID,categoryName);
+                }
             }
         }
 
         return categoryByID;
     }
+
+
+    @Override
+    public Category insert(Category category) throws SQLException {
+
+        String query = "INSERT INTO categories (CategoryID , CategoryName) Values ( ? , ? )";
+
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+
+
+        ){
+            statement.setInt(1,category.getCategoryID());
+            statement.setString(2,category.getCategoryName());
+
+            int rows = statement.executeUpdate();
+
+            try(ResultSet keys = statement.getGeneratedKeys()){
+
+                if(keys.next()){
+                    int categoryID = keys.getInt(1);
+                    category.setCategoryID(categoryID);
+                    return category;
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void update(int ID, Category category) throws SQLException {
+
+        String query = "UPDATE categories SET categoryName = ?  WHERE categoryID = ? ;";
+
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+        ){
+            statement.setString(1 , category.getCategoryName());
+            statement.setInt(2 , category.getCategoryID());
+
+            int rows  = statement.executeUpdate();
+        }
+    }
+
+    @Override
+    public void delete(int ID) throws SQLException {
+
+        String query = """
+                DELETE FROM categories
+                WHERE categoryID = ? ;""";
+
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)){
+
+            statement.setInt(1, ID);
+
+            int rows = statement.executeUpdate();
+
+        }
+    }
+
+
 
 }

@@ -42,7 +42,6 @@ public class ProductController {
     }
 
 
-
     @RequestMapping(path="/products/{ID}",method = RequestMethod.GET)
     public Product getProduct(int ID){
 
@@ -58,10 +57,9 @@ public class ProductController {
     }
 
 
-
     @RequestMapping(path="/products", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public Product addProdduct(@RequestBody Product product){
+    public Product addProduct(@RequestBody Product product){
 
         try{
             return pDao.insert(product);
@@ -70,6 +68,7 @@ public class ProductController {
         }
         return product;
     }
+
 
     @RequestMapping(path = "/products/{ID}" , method = RequestMethod.PUT)
     public void updateProduct(@PathVariable int ID , @RequestBody Product product){
@@ -81,10 +80,12 @@ public class ProductController {
 
 
     }
+
+
     @RequestMapping(path = "/products/{ID}" , method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable int ID){
-        
+
         try{
             pDao.delete(ID);
         }catch (SQLException e){
